@@ -1,5 +1,25 @@
-#Quiz 5
+# Quiz 5
 # Autor: Tomas Angel y Felipe Nunez
+
+"""
+El siguiente codigo muestra un modelo de programación lineal para seleccionar a los 11 jugadores de un 
+equipo para el juego FIFA Ultimate Team maximizando la valoración total sin exceder un presupuesto dado.
+En el caso de ejemplo usamos 17 opciones de jugadores para que el modelo escoga y de este modo probamos 
+que la implementacion cumpla las restricciones dadas y sea la correcta.
+
+Función objetivo: La función objetivo 'objective_rule' busca maximizar la suma de la valoración total 
+del equipo, considerando la valoración de cada jugador y su posición.
+
+Restricciones:
+- Total de jugadores: La restricción 'model.total_players' asegura que se seleccionen exactamente 11 
+jugadores.
+- Presupuesto: La restricción 'budget_constraint_rule' asegura que la suma de los precios de los jugadores 
+seleccionados no exceda el presupuesto 'model.p'.
+- Posiciones: La restricción 'position_constraint_rule' asegura que cada posición tenga un número específico 
+de jugadores, según la formación definida en formation. Por ejemplo, no podemos ingresar 11 porteros al campo.
+
+"""
+
 from pyomo.environ import ConcreteModel, Var, Objective, Constraint, NonNegativeReals, maximize, summation
 from pyomo.environ import *
 from pyomo.opt import SolverFactory
@@ -30,7 +50,7 @@ position_matrix = {
 formation = {'POR': 1, 'DFI': 1, 'DFC': 2, 'DFD' : 1
              , 'MCD': 2, 'MCO' : 2, 'DC': 2}
 
-# Definir los parámetros en Pyomo
+# Definir los parámetros
 model.P = Param(model.j, initialize=prices)
 model.R = Param(model.j, initialize=ratings)
 model.posij = Param(model.i, model.j, initialize=position_matrix)
